@@ -3293,7 +3293,7 @@ _FIXES_ENUM e_FIXES_SETTINGS:(<<= 1)
  * faster).
  * </remarks>
  */
-#define _FIXES_IN_RANGE(%0,%1,%2) (((%0) - ((%1) + cellmin)) < ((%2) - ((%1) + cellmin)))
+#define _FIXES_IN_RANGE(%0,%1,%2) ((_:(%0) - (_:(%1) + cellmin)) < (_:(%2) - (_:(%1) + cellmin)))
 
 /**
  * <remarks>
@@ -3319,12 +3319,21 @@ _FIXES_ENUM e_FIXES_SETTINGS:(<<= 1)
 
 /**
  * <remarks>
+ * _FIXES_IS_VALID_PLAYER
+ *
+ * Check if the ID is in range of player IDs.
+ * </remarks>
+ */
+#define _FIXES_IS_VALID_PLAYER(%0) _FIXES_IN_RANGE((%0), 0, MAX_PLAYERS)
+
+/**
+ * <remarks>
  * _FIXES_IS_PLAYER_CONNECTED
  *
  * Always valid "IsPlayerConnected" check.
  * </remarks>
  */
-#define _FIXES_IS_PLAYER_CONNECTED(%0) (_FIXES_IN_RANGE((%0), 0, MAX_PLAYERS) && IsPlayerConnected((%0)))
+#define _FIXES_IS_PLAYER_CONNECTED(%0) (_FIXES_IS_VALID_PLAYER(%0) && IsPlayerConnected(%0))
 
 // These varaibles are NOT pre-processor dependent as they are stock.  It's just
 // simpler than trying to figure out when or if a semi-colon is needed.  The
@@ -3405,7 +3414,7 @@ static stock
 	 * A record of which menus have and haven't been shown yet.
 	 * </remarks>
 	 */
-	FIXES_gsValidMenus[_FIXES_CEILDIV(MAX_MENUS, cellbits)],
+	FIXES_gsValidMenus[_FIXES_CEILDIV(_:MAX_MENUS, cellbits)],
 	/**
 	 * <remarks>
 	 * A player's IP as a 32-bit integer.
@@ -3878,8 +3887,8 @@ static stock const
 	FIXES_gscMaxPassengers[] =
 		{
 			0x10331113, 0x11311131, 0x11331313, 0x80133301, 0x1381F110, 0x10311103, 0x10001F10, 0x11113311, 0x13113311,
-			0x31101100, 0x30002301, 0x11031311, 0x11111331, 0x10013111, 0x01131100, 0x11111110, 0x11100031, 0x11130221,
-			0x33113311, 0x11111101, 0x33101133, 0x10100550, 0x03133111, 0xFF11113F, 0x13330111, 0xFF131111, 0x0000FF3F
+			0x31101100, 0x30002301, 0x11031311, 0x11111331, 0x10013111, 0x01131100, 0x11111110, 0x11100031, 0x11130111,
+			0x33113311, 0x11111101, 0x33101133, 0x10100510, 0x03133111, 0xFF11113F, 0x13330111, 0xFF131111, 0x0000FF3F
 		},
 #endif
 	/**
@@ -5356,29 +5365,29 @@ native BAD_IsPlayerConnected(playerid) = IsPlayerConnected;
 				TextDrawTextSize(t, 200.0, 620.0);
 
 				// Global style 11 (positive money).
-				t = FIXES_gsGTStyle[11] = TextDrawCreate(607.000000, 78.000000, FIXES_gsSpace),
-				TextDrawLetterSize(t, 0.550000, 2.150000),
+				t = FIXES_gsGTStyle[11] = TextDrawCreate(608.000000, 77.000000, FIXES_gsSpace),
+				TextDrawLetterSize(t, 0.550000, 2.200000),
 				TextDrawAlignment(t, 3),
 				TextDrawColor(t, 0x36682CFF),
 				TextDrawSetShadow(t, 0),
 				TextDrawSetOutline(t, 2),
-				TextDrawBackgroundColor(t, 0x000000FF),
+				TextDrawBackgroundColor(t, 0x000000AA),
 				TextDrawFont(t, 3),
-				TextDrawSetProportional(t, 1),
+				TextDrawSetProportional(t, 0),
 				TextDrawUseBox(t, true),
 				TextDrawBoxColor(t, 0x00000000),
 				TextDrawTextSize(t, 10.0, 200.0);
 
 				// Global style 12 (negative money).
-				t = FIXES_gsGTStyle[12] = TextDrawCreate(607.000000, 78.000000, FIXES_gsSpace),
-				TextDrawLetterSize(t, 0.550000, 2.150000),
+				t = FIXES_gsGTStyle[12] = TextDrawCreate(608.000000, 77.000000, FIXES_gsSpace),
+				TextDrawLetterSize(t, 0.550000, 2.200000),
 				TextDrawAlignment(t, 3),
 				TextDrawColor(t, 0xB4191DFF),
 				TextDrawSetShadow(t, 0),
 				TextDrawSetOutline(t, 2),
-				TextDrawBackgroundColor(t, 0x000000FF),
+				TextDrawBackgroundColor(t, 0x000000AA),
 				TextDrawFont(t, 3),
-				TextDrawSetProportional(t, 1),
+				TextDrawSetProportional(t, 0),
 				TextDrawUseBox(t, true),
 				TextDrawBoxColor(t, 0x00000000),
 				TextDrawTextSize(t, 10.0, 200.0);
@@ -5561,29 +5570,29 @@ native BAD_IsPlayerConnected(playerid) = IsPlayerConnected;
 				PlayerTextDrawTextSize(playerid, t, 200.0, 620.0);
 
 				// Global style 11 (playerid, positive money).
-				t = FIXES_gsPGTStyle[playerid][11] = CreatePlayerTextDraw(playerid, 607.000000, 78.000000, FIXES_gsSpace),
-				PlayerTextDrawLetterSize(playerid, t, 0.550000, 2.150000),
+				t = FIXES_gsPGTStyle[playerid][11] = CreatePlayerTextDraw(playerid, 608.000000, 77.000000, FIXES_gsSpace),
+				PlayerTextDrawLetterSize(playerid, t, 0.550000, 2.200000),
 				PlayerTextDrawAlignment(playerid, t, 3),
 				PlayerTextDrawColor(playerid, t, 0x36682CFF),
 				PlayerTextDrawSetShadow(playerid, t, 0),
 				PlayerTextDrawSetOutline(playerid, t, 2),
-				PlayerTextDrawBackgroundColor(playerid, t, 0x000000FF),
+				PlayerTextDrawBackgroundColor(playerid, t, 0x000000AA),
 				PlayerTextDrawFont(playerid, t, 3),
-				PlayerTextDrawSetProportional(playerid, t, 1),
+				PlayerTextDrawSetProportional(playerid, t, 0),
 				PlayerTextDrawUseBox(playerid, t, true),
 				PlayerTextDrawBoxColor(playerid, t, 0x00000000),
 				PlayerTextDrawTextSize(playerid, t, 10.0, 200.0);
 
 				// Global style 12 (playerid, negative money).
-				t = FIXES_gsPGTStyle[playerid][12] = CreatePlayerTextDraw(playerid, 607.000000, 78.000000, FIXES_gsSpace),
-				PlayerTextDrawLetterSize(playerid, t, 0.550000, 2.150000),
+				t = FIXES_gsPGTStyle[playerid][12] = CreatePlayerTextDraw(playerid, 608.000000, 77.000000, FIXES_gsSpace),
+				PlayerTextDrawLetterSize(playerid, t, 0.550000, 2.200000),
 				PlayerTextDrawAlignment(playerid, t, 3),
 				PlayerTextDrawColor(playerid, t, 0xB4191DFF),
 				PlayerTextDrawSetShadow(playerid, t, 0),
 				PlayerTextDrawSetOutline(playerid, t, 2),
-				PlayerTextDrawBackgroundColor(playerid, t, 0x000000FF),
+				PlayerTextDrawBackgroundColor(playerid, t, 0x000000AA),
 				PlayerTextDrawFont(playerid, t, 3),
-				PlayerTextDrawSetProportional(playerid, t, 1),
+				PlayerTextDrawSetProportional(playerid, t, 0),
 				PlayerTextDrawUseBox(playerid, t, true),
 				PlayerTextDrawBoxColor(playerid, t, 0x00000000),
 				PlayerTextDrawTextSize(playerid, t, 10.0, 200.0);
@@ -5748,18 +5757,31 @@ static stock _FIXES_CheckServerRoot()
 				print("*                                                                              *");
 				print("* Or (Windows - CMD):                                                          *");
 				print("*                                                                              *");
+				print("*     cd scriptfiles                                                           *");
 				print("*     mklink /J DANGEROUS_SERVER_ROOT ..                                       *");
 				print("*                                                                              *");
 				print("* Or (Windows - PowerShell):                                                   *");
 				print("*                                                                              *");
+				print("*     cd scriptfiles                                                           *");
 				print("*     cmd /c mklink /J DANGEROUS_SERVER_ROOT ..                                *");
 				print("*                                                                              *");
 				print("* Or (Linux):                                                                  *");
 				print("*                                                                              *");
+				print("*     cd scriptfiles                                                           *");
 				print("*     ln -s .. DANGEROUS_SERVER_ROOT                                           *");
 				print("*                                                                              *");
-				print("* If you not able or just doesn't want to make these changes then add this     *");
-				print("* \"#define FIXES_ServerVarMsg 0\" before \"#include <fixes>\"                     *");
+				print("* If you're not able to, or just don't want to make these changes you can      *");
+				print("* suppress the warning by defining this at the top of your mode:               *");
+				print("*                                                                              *");
+				print("*     #define FIXES_ServerVarMsg 0                                             *");
+				print("*                                                                              *");
+				print("* Or (preferably) disable the relevant fixes with:                             *");
+				print("*                                                                              *");
+				print("*     #define FIX_GetServerVarAsString 0                                       *");
+				print("*     #define FIX_GetServerVarAsFloat  0                                       *");
+				print("*     #define FIX_GetServerVarAsInt    0                                       *");
+				print("*     #define FIX_GetServerVarAsBool   0                                       *");
+				print("*                                                                              *");
 				print("********************************************************************************");
 				print(" ");
 			}
@@ -7434,7 +7456,7 @@ native BAD_SetPlayerWorldBounds(playerid, Float:x_max, Float:x_min, Float:y_max,
 	#if FIXES_Single
 		stock FIXES_SetPlayerWorldBounds(playerid, Float:x_max, Float:x_min, Float:y_max, Float:y_min)
 		{
-			if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+			if (_FIXES_IS_VALID_PLAYER(playerid))
 			{
 				FIXES_PRINTF("Call SetPlayerWorldBounds");
 				if (x_max == x_min || y_max == y_min)
@@ -7486,7 +7508,7 @@ native BAD_SetPlayerWorldBounds(playerid, Float:x_max, Float:x_min, Float:y_max,
 
 		stock FIXES_SetPlayerWorldBounds(playerid, Float:x_max, Float:x_min, Float:y_max, Float:y_min)
 		{
-			if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+			if (_FIXES_IS_VALID_PLAYER(playerid))
 			{
 				FIXES_PRINTF("Call SetPlayerWorldBounds");
 				// Impossibly small area, disable checks entirely.
@@ -7546,7 +7568,7 @@ native BAD_SetPlayerWorldBounds(playerid, Float:x_max, Float:x_min, Float:y_max,
 #if FIX_GetPlayerWorldBounds
 	stock FIXES_GetPlayerWorldBounds(playerid, &Float:x_max, &Float:x_min, &Float:y_max, &Float:y_min)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			x_min = FIXES_gsWorldbounds[playerid][E_FIXES_WORLDBOUND_DATA_LX],
 			x_max = FIXES_gsWorldbounds[playerid][E_FIXES_WORLDBOUND_DATA_UX],
@@ -7605,7 +7627,7 @@ native BAD_TogglePlayerControllable(playerid, toggle) = TogglePlayerControllable
 
 		stock FIXES_TogglePlayerControllable(playerid, toggle)
 		{
-			if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+			if (_FIXES_IS_VALID_PLAYER(playerid))
 			{
 				return
 					CallRemoteFunction(FIXES_gscTogglePlayerControl, FIXES_gscSpec@ii, playerid, toggle),
@@ -8349,7 +8371,7 @@ native BAD_HideMenuForPlayer(Menu:menuid, playerid) = HideMenuForPlayer;
 			{
 				#if FIX_GetPlayerMenu
 					#if FIX_HideMenuForPlayer_2
-						if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS) && FIXES_gsCurrentMenu[playerid] == menuid)
+						if (_FIXES_IS_VALID_PLAYER(playerid) && FIXES_gsCurrentMenu[playerid] == menuid)
 					#else
 						if (FIXES_gsCurrentMenu[playerid] == menuid && HideMenuForPlayer(menuid, playerid))
 					#endif
@@ -8447,7 +8469,7 @@ native BAD_GetPlayerMenu(playerid) = GetPlayerMenu;
 #if FIX_GetPlayerMenu
 	stock Menu:FIXES_GetPlayerMenu(playerid)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			return FIXES_gsCurrentMenu[playerid];
 		}
@@ -9226,7 +9248,7 @@ native BAD_DisablePlayerRaceCheckpoint(playerid) = DisablePlayerRaceCheckpoint;
 				timers[playerid] = parr[playerid] = 0;
 			}
 		}
-		else //if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		else //if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			// Remove.
 			if (timers[playerid] != 0)
@@ -9405,7 +9427,7 @@ native BAD_GameTextForPlayer(playerid, const string[], time, style) = GameTextFo
 #if FIX_HideGameText
 	//stock FIXES_HideGameTextForPlayer(playerid, style)
 	//{
-	//	if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+	//	if (_FIXES_IS_VALID_PLAYER(playerid))
 	//	{
 	//		if (FIXES_gsGTTimer[style][playerid] != 0)
 	//		{
@@ -9715,7 +9737,7 @@ native BAD_GetPlayerInterior(playerid) = GetPlayerInterior;
 #if FIX_GetPlayerInterior
 	stock FIXES_GetPlayerInterior(playerid)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			return FIXES_GET(PlayerInterior, playerid);
 		}
@@ -9742,7 +9764,7 @@ native BAD_SetPlayerInterior(playerid, interiorid) = SetPlayerInterior;
 #if FIX_GetPlayerInterior
 	stock FIXES_SetPlayerInterior(playerid, interiorid)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			FIXES_SET(PlayerInterior, playerid, interiorid);
 			return SetPlayerInterior(playerid, interiorid);
@@ -9809,7 +9831,7 @@ native BAD_AllowPlayerTeleport(playerid, allow) = AllowPlayerTeleport;
 	#if FIXES_Single
 		stock FIXES_AllowPlayerTeleport(playerid, allow)
 		{
-			if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+			if (_FIXES_IS_VALID_PLAYER(playerid))
 			{
 				if (allow)
 				{
@@ -9825,7 +9847,7 @@ native BAD_AllowPlayerTeleport(playerid, allow) = AllowPlayerTeleport;
 	#else
 		stock FIXES_AllowPlayerTeleport(playerid, allow)
 		{
-			if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+			if (_FIXES_IS_VALID_PLAYER(playerid))
 			{
 				CallRemoteFunction(FIXES_gscAllowTeleport, FIXES_gscSpec@ii, playerid, allow);
 			}
@@ -10026,7 +10048,7 @@ native BAD_GangZoneCreate(Float:minx, Float:miny, Float:maxx, Float:maxy) = Gang
 #if FIX_OnDialogResponse || FIX_GetPlayerDialog
 	stock FIXES_ShowPlayerDialog(playerid, dialog, style, _FIXES_MAYBE_CONST title[], _FIXES_MAYBE_CONST caption[], _FIXES_MAYBE_CONST button1[], _FIXES_MAYBE_CONST button2[])
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			FIXES_SET(PlayerDialog, playerid, dialog);
 			return ShowPlayerDialog(playerid, dialog, style, title, caption, button1, button2);
@@ -10103,7 +10125,7 @@ native BAD_GangZoneCreate(Float:minx, Float:miny, Float:maxx, Float:maxy) = Gang
 #if FIX_GetPlayerDialog
 	stock FIXES_GetPlayerDialog(playerid)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			return FIXES_GET(PlayerDialog, playerid);
 		}
@@ -11168,7 +11190,7 @@ native BAD_SetPlayerCameraPos(playerid, Float:x, Float:y, Float:z) = SetPlayerCa
 #if FIX_SetPlayerCamera
 	stock FIXES_SetPlayerCameraPos(playerid, Float:x, Float:y, Float:z)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			#if FIXES_Single
 				if (FIXES_gsPlayerBools[playerid] & e_FIXES_BOOLS_SPECTATING || GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
@@ -11206,7 +11228,7 @@ native BAD_SetPlayerCameraLookAt(playerid, Float:x, Float:y, Float:z) = SetPlaye
 #if FIX_SetPlayerCamera
 	stock FIXES_SetPlayerCameraLookAt(playerid, Float:x, Float:y, Float:z, cut = CAMERA_CUT)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			#if FIXES_Single
 				if (FIXES_gsPlayerBools[playerid] & e_FIXES_BOOLS_SPECTATING || GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
@@ -11244,7 +11266,7 @@ native BAD_TogglePlayerSpectating(playerid, toggle) = TogglePlayerSpectating;
 #if FIX_SetPlayerCamera
 	stock FIXES_TogglePlayerSpectating(playerid, toggle)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			if (toggle)
 			{
@@ -11294,7 +11316,7 @@ native BAD_SetPlayerTime(playerid, hour, minute) = SetPlayerTime;
 
 	stock FIXES_SetPlayerTime(playerid, hour, minute)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			if (FIXES_gsPlayerBools[playerid] & e_FIXES_BOOLS_ON_PLAYER_CONNECT)
 			{
@@ -11332,7 +11354,7 @@ native BAD_SetPlayerColor(playerid, color) = SetPlayerColor;
 
 	stock FIXES_SetPlayerColor(playerid, color)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			if (FIXES_gsPlayerBools[playerid] & e_FIXES_BOOLS_ON_PLAYER_CONNECT)
 			{
@@ -11755,13 +11777,13 @@ static stock _FIXES_Bernstein(const name[])
 	new
 		i = -1,
 		ch,
-		hash = -1;
+		hash = 5381;
 	// In carcols.dat the vehicle names end at ",".  That makes this code
 	// very specific to a few use-cases.  It also works for hashing server vars,
 	// since they don't have commas.  Now case-insensitive.
 	while ((ch = name[++i]) >= '0')
 	{
-		hash = (hash * 33) + (ch | 0x20);
+		hash = (hash * 33) ^ (ch | 0x20);
 	}
 	return hash;
 }
@@ -11777,7 +11799,7 @@ static stock _FIXES_Bernstein(const name[])
 #if FIX_GetPlayerWeather
 	stock FIXES_GetPlayerWeather(playerid)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS) && !(FIXES_gsPlayerBools[playerid] & e_FIXES_BOOLS_CLOCK_ENABLED))
+		if (_FIXES_IS_VALID_PLAYER(playerid) && !(FIXES_gsPlayerBools[playerid] & e_FIXES_BOOLS_CLOCK_ENABLED))
 		{
 			return FIXES_GET(PlayerWeather, playerid);
 		}
@@ -11804,7 +11826,7 @@ native BAD_SetPlayerWeather(playerid, weather) = SetPlayerWeather;
 #if FIX_GetPlayerWeather
 	stock FIXES_SetPlayerWeather(playerid, weather)
 	{
-		if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+		if (_FIXES_IS_VALID_PLAYER(playerid))
 		{
 			FIXES_SET(PlayerWeather, playerid, weather);
 			return SetPlayerWeather(playerid, weather);
@@ -11856,7 +11878,7 @@ native BAD_TogglePlayerClock(playerid, toggle) = TogglePlayerClock;
 
 		stock FIXES_TogglePlayerClock(playerid, toggle)
 		{
-			if (_FIXES_IN_RANGE(playerid, 0, MAX_PLAYERS))
+			if (_FIXES_IS_VALID_PLAYER(playerid))
 			{
 				return
 					CallRemoteFunction(FIXES_gscTogglePlayerControl, FIXES_gscSpec@ii, playerid, toggle),
@@ -12024,39 +12046,39 @@ native BAD_GetServerVarAsString(const varname[], buffer[], len) = GetServerVarAs
 		buffer[0] = '\0';
 		if (!FIXES_gsServerCFG) switch (_FIXES_Bernstein(varname))
 		{
-		case 0x191078CE, // gamemode0
-		     0x191078CF, // gamemode1
-		     0x191078D0, // gamemode2
-		     0x191078D1, // gamemode3
-		     0x191078D2, // gamemode4
-		     0x191078D3, // gamemode5
-		     0x191078D4, // gamemode6
-		     0x191078D5, // gamemode7
-		     0x191078D6, // gamemode8
-		     0x191078D7, // gamemode9
-		     0x3B1F92DF, // gamemode10
-		     0x3B1F92E0, // gamemode11
-		     0x3B1F92E1, // gamemode12
-		     0x3B1F92E2, // gamemode13
-		     0x3B1F92E3, // gamemode14
-		     0x3B1F92E4, // gamemode15
-		     0xDD087136, // worldtime
-		     0x82FEFA05, // version
-		     0x77143DA2, // lagcomp
-		     0xAB471B39, // logtimeformat
-		     0xBBB6B44D, // nosign
-		     0xC5A55EC1, // plugins
-		     0x3E60E28D, // filterscripts
-		     0x81757563, // gamemodetext
-		     0xCEC61D0F, // weather
-		     0x1D768025, // gravity
-		     0x715D9343, // rcon_password
-		     0xCFF70EF0, // weburl
-		     0xC4B7237E, // mapname
-		     0x6A3B86C3, // language
-		     0xFB74B99E, // hostname
-		     0x27C72132, // password
-		     0x002571DC: // bind
+		case 0x6A7D4118, // gamemode0
+		     0x6A7D4119, // gamemode1
+		     0x6A7D411A, // gamemode2
+		     0x6A7D411B, // gamemode3
+		     0x6A7D411C, // gamemode4
+		     0x6A7D411D, // gamemode5
+		     0x6A7D411E, // gamemode6
+		     0x6A7D411F, // gamemode7
+		     0x6A7D4110, // gamemode8
+		     0x6A7D4111, // gamemode9
+		     0xBA256409, // gamemode10
+		     0xBA256408, // gamemode11
+		     0xBA25640B, // gamemode12
+		     0xBA25640A, // gamemode13
+		     0xBA25640D, // gamemode14
+		     0xBA25640C, // gamemode15
+		     0x740D30D2, // worldtime
+		     0x2FB2D3BF, // version
+		     0xFBE0D5FE, // lagcomp
+		     0x19BECDF7, // logtimeformat
+		     0x62420997, // nosign
+		     0x9D57983F, // plugins
+		     0x3AFFC879, // filterscripts
+		     0xD93377B5, // gamemodetext
+		     0x74C01C1D, // weather
+		     0xB605A0C3, // gravity
+		     0x8FED0775, // rcon_password
+		     0x77E7547E, // weburl
+		     0x40736C5E, // mapname
+		     0x672924D7, // language
+		     0x0E9495C2, // hostname
+		     0x5D876F9A, // password
+		     0x7C706484: // bind
 			return bool:GetServerVarAsString(varname, buffer, len);
 		default:
 			return false;
@@ -12133,25 +12155,25 @@ native BAD_GetServerVarAsInt(const varname[]) = GetServerVarAsInt;
 	{
 		if (!FIXES_gsServerCFG) switch (_FIXES_Bernstein(varname))
 		{
-		case 0x2CAD71B6, // cookielogging
-		     0x779863BF, // concookies
-		     0x05E98D75, // db_log_queries
-		     0x002E1E91, // db_logging
-		     0xD24E879F, // conseedtime
-		     0x65E02253, // lagcompmode
-		     0xBA15F385, // minconnectiontime
-		     0xB4A6E9E0, // playertimeout
-		     0xE0BF17AC, // ackslimit
-		     0xAF759823, // messageslimit
-		     0xD6D5A0EB, // messageholelimit
-		     0xA32CD2AF, // chatlogging
-		     0x3C9BE967, // weapon_rate
-		     0xBD571922, // incar_rate
-		     0x9EC6E5F3, // onfoot_rate
-		     0xBD480020, // maxnpc
-		     0x3E1BBFD6, // sleep
-		     0x4D50EBEB, // stream_rate
-		     0xBB2D5AE6: // maxplayers
+		case 0xF59D7562, // cookielogging
+		     0x5DD3AB50, // concookies
+		     0x24DF3EEB, // db_log_queries
+		     0xD8FC2F7F, // db_logging
+		     0xCEF27485, // conseedtime
+		     0x0C43D2DD, // lagcompmode
+		     0xB3AAF0EC, // minconnectiontime
+		     0x2E17DD8D, // playertimeout
+		     0xED02304A, // ackslimit
+		     0x55A5C0C8, // messageslimit
+		     0xBD012555, // messageholelimit
+		     0x16C6DD58, // chatlogging
+		     0x9420F5BA, // weapon_rate
+		     0x5C8B384F, // incar_rate
+		     0x01F89DEB, // onfoot_rate
+		     0x57452FAC, // maxnpc
+		     0x0BAD27EA, // sleep
+		     0x0A9910C4, // stream_rate
+		     0xE20F31D1: // maxplayers
 			return GetServerVarAsInt(varname);
 		default:
 			return 0;
@@ -12183,13 +12205,13 @@ native BAD_GetServerVarAsBool(const varname[]) = GetServerVarAsBool;
 	{
 		if (!FIXES_gsServerCFG) switch (_FIXES_Bernstein(varname))
 		{
-		case 0x4D532D94, // announce
-		     0xC99B1697, // lanmode
-		     0xAEF7F19F, // query
-		     0xB86708E6, // rcon
-		     0x0608CD58, // logqueries
-		     0xD1E9B9B6, // timestamp
-		     0x0C5ACC88: // myriad
+		case 0x5F92A936, // announce
+		     0xFB6572C5, // lanmode
+		     0x0B3513EF, // query
+		     0x7C78F2F5, // rcon
+		     0xA300A7ED, // logqueries
+		     0x97EABC6B, // timestamp
+		     0x57CBE04F: // myriad
 			return bool:GetServerVarAsBool(varname);
 		default:
 			return false;
@@ -12339,6 +12361,7 @@ static stock _FIXES_RemoveInternal(array[], value, size)
 #undef _FIXES_FOREACH
 #undef _FIXES_IS_UNSET
 #undef _FIXES_IS_IN_CHARGE
+#undef _FIXES_IS_VALID_PLAYER
 #undef _FIXES_IN_RANGE
 #undef _FIXES_NO_RANGE
 #undef _FIXES_FORWARD
